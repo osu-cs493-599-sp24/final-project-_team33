@@ -1,0 +1,39 @@
+{
+  "name": "final-project-team33",
+  "version": "1.0.0",
+  "description": "Final Project showoff for team 33",
+  "main": "src/index.ts",
+  "type": "module",
+  "author": {
+    "name": "Jirayu Saengwannakool",
+    "email": "saengwaj@oregonstate.edu"
+  },
+  "scripts": {
+    "build": "tsc",
+    "start": "tsx --no-warnings src/index.ts",
+    "dev": "tsx --no-warnings --watch src/index.ts",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dockerbuild": "docker buildx build --platform linux/amd64 team33/finalproject:latest ."
+  },
+  "license": "ISC",
+  "dependencies": {
+    "@types/express": "^4.17.21",
+    "cors": "^2.8.5",
+    "express": "^4.19.2",
+    "mongoose": "^8.4.1",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.0",
+    "ts-node-dev": "^2.0.0"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.17",
+    "@types/node": "^20.12.5",
+    "@types/swagger-jsdoc": "^6.0.4",
+    "@types/swagger-ui-express": "^4.1.6",
+    "ts-node": "^10.9.2",
+    "tslib": "^2.6.2",
+    "tsup": "^8.0.2",
+    "tsx": "^4.7.2",
+    "typescript": "^5.4.4"
+  }
+}
