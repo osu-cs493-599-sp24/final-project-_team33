@@ -5,8 +5,8 @@
   "main": "src/index.ts",
   "type": "module",
   "author": {
-    "name": "Jirayu Saengwannakool",
-    "email": "saengwaj@oregonstate.edu"
+    "name": "Jirayu Saengwannakool,Feipeng Yue, Chan-Wei Yeh, Di Zhang",
+    "email": "saengwaj@oregonstate.edu,yuef@oregonstate.edu, yehcha@oregonstate.edu, zhangd5@oregonstate.edu"
   },
   "scripts": {
     "build": "tsc",
