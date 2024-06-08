@@ -8,4 +8,5 @@ export const startMongo = async (): Promise<void> => {
   await mongoose.connect(url, {
     socketTimeoutMS: 0,
   })
+  console.log(`Connected to MongoDB: ${url}`)
 }

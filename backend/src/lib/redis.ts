@@ -12,11 +12,13 @@ class Redis {
 
   async connect() {
     console.log("connecting to redis")
-    console.log(redisOption)
     this.client = await createClient(redisOption)
-      .on("error", (err: any) => console.log("Error", err))
+      .on("error", (err: any) => {
+        console.log("Error", err)
+        throw new Error("Error connecting to redis")
+      })
       .connect()
-    console.log("connected to redis")
+    console.log(`connected to redis ${redisOption.url}`)
     return this.client
   }
 

@@ -42,5 +42,4 @@ const startMainProgram = async (): Promise<void> => {
   })
 }
 
-console.log(process.env.REDIS_URL)
-console.log(process.env.PORT)
+startMainProgram()
