@@ -1,3 +1,4 @@
 # ignore all node modules and all sub folders
 node_modules/
 **/node_modules/
+**/backend/.env

@@ -1,0 +1,57 @@
+version: "3"
+services:
+  mongo:
+    image: mongo:4.4
+    environment:
+      - MONGO_INITDB_DATABASE=project33
+      - MONGO_INITDB_ROOT_USERNAME=team33
+      - MONGO_INITDB_ROOT_PASSWORD=team33
+    volumes:
+      - ./init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro
+      - mongodb_data:/data/db
+    ports:
+      - 27017:27017
+    networks:
+      - local_hw4
+  mq:
+    image: rabbitmq:3-management
+    ports:
+      - 5672:5672
+      - 15672:15672
+    networks:
+      - local_hw4
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:15672"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+  api:
+    build:
+      context: .
+      dockerfile: ./backend/Dockerfile
+    image: team-33-api:latest
+    command: npm start
+    restart: on-failure
+    ports:
+      - 8000:8000
+    environment:
+      - MONGO_AUTH_DB=assignment4
+      - MONGO_HOST=mongo
+      - MONGO_PORT=27017
+      - MONGO_USER=userjirayu
+      - MONGO_PASSWORD=passwordjirayu
+      - MQ_URL=amqp://mq:5672
+    depends_on:
+      - mongo
+      - mq
+    networks:
+      - local_hw4
+
+networks:
+  local_hw4:
+    driver: bridge
+
+volumes:
+  mongodb_data:
+    driver: local
+    name: mongodb_data
