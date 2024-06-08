@@ -2,14 +2,18 @@ import type { Express, Request, Response } from "express"
 
 import { Error } from "./main.type"
 import cors from "cors"
+import dotenv from "dotenv"
 import express from "express"
+import redis from "./lib/redis"
 import router from "./route.main"
+import { startMongo } from "./lib/mongo"
 
+dotenv.config()
 // import { swaggerSpec } from "./swagger"
 
 const app: Express = express()
 
-const PORT = 3000
+const PORT = process.env.PORT || 3000
 
 app.use(express.json())
 app.use(cors())
@@ -28,6 +32,15 @@ app.use("*", function (req: Request, res: Response) {
   })
 })
 
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`)
-})
+const startMainProgram = async (): Promise<void> => {
+  // startMongo()
+  await startMongo()
+  await redis.connect()
+
+  app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`)
+  })
+}
+
+console.log(process.env.REDIS_URL)
+console.log(process.env.PORT)
