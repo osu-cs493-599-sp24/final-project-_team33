@@ -1,5 +1,6 @@
 import type { NextFunction, Request, Response } from "express"
 
+import bcrypt from "bcryptjs"
 import jwt from "jsonwebtoken"
 
 const SECRET = process.env.JWT_SECRET || "TEAM33_SECRET"
@@ -26,3 +27,11 @@ export const combineMiddlewares =
 
     handler()
   }
+
+export const hashPassword = (password: string) => {
+  const salt = bcrypt.genSaltSync(10)
+  return bcrypt.hashSync(password, salt)
+}
+
+export const comparePassword = (password: string, hash: string) =>
+  bcrypt.compareSync(password, hash)

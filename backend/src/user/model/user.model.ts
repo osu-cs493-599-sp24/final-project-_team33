@@ -1,3 +1,5 @@
+import { comparePassword, hashPassword } from "../../lib/helper"
+
 import mongoose from "mongoose"
 
 const ObjectId = mongoose.Schema.Types.ObjectId
@@ -29,13 +31,16 @@ const Schema = new mongoose.Schema(
   }
 )
 
-const Model = mongoose.model("user", Schema)
 
 Schema.pre("save", function (next) {
   if (this.password && this.isModified("password")) {
-    // hash password here
+    this.password = hashPassword(this.password)
   }
   next()
 })
 
-export default mongoose.models.User || Model
+Schema.methods.comparePassword = function (password: string) {
+  return comparePassword(password, this.password)
+}
+
+export default mongoose.models.User || mongoose.model("user", Schema)

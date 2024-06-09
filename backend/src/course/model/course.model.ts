@@ -23,6 +23,4 @@ const Schema = new mongoose.Schema(
   }
 )
 
-const Model = mongoose.model("course", Schema)
-
-export default mongoose.models.Course || Model
+export default mongoose.models.Course || mongoose.model("course", Schema)

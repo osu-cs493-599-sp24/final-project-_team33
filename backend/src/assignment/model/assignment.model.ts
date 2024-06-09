@@ -24,6 +24,4 @@ const Schema = new mongoose.Schema(
   }
 )
 
-const Model = mongoose.model("assignment", Schema)
-
-export default mongoose.models.Assignment || Model
+export default mongoose.models.Assignment || mongoose.model("assignment", Schema)
