@@ -2,6 +2,7 @@ import { IUser, UserLoginBody, UserRequestBody } from "./user.type"
 import type { NextFunction, Request, Response } from "express"
 
 import { IError } from "../main.type"
+import _ from "lodash"
 import { createToken } from "../lib/helper"
 import userHandler from "./model/user.handler"
 
@@ -19,11 +20,15 @@ class UserController {
   async login(req: Request, res: Response, next: NextFunction) {
     try {
       const loginUser: UserLoginBody = req.body
-      const user = await userHandler.getUserByEmail(loginUser.email)
+      const user: IUser = await userHandler.getUserByEmail(loginUser.email)
+      // validate password
+      userHandler.validatePassword(user, loginUser.password)
+
       // generate access token
       const token = createToken(user)
+      const data = { ..._.omit(user, ["password", "__v"]), accessToken: token }
 
-      res.json({ message: "Login.", data: { ...user, accessToken: token } })
+      res.json({ message: "Login.", data })
     } catch (error) {
       next(error)
     }

@@ -15,8 +15,9 @@ export const hashPassword = (password: string) => {
   return bcrypt.hashSync(password, salt)
 }
 
-export const comparePassword = (password: string, hash: string) =>
-  bcrypt.compareSync(password, hash)
+export const comparePassword = (password: string, hash: string) => {
+  return bcrypt.compare(password, hash)
+}
 
 export const combineMiddlewares =
   (middleWares: any) => (req: Request, res: Response, next: NextFunction) => {
