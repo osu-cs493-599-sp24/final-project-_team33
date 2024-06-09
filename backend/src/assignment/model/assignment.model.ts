@@ -2,29 +2,28 @@ import mongoose from "mongoose"
 
 const ObjectId = mongoose.Schema.Types.ObjectId
 
-const Model = mongoose.model(
-  "assignment",
-  new mongoose.Schema(
-    {
-      _id: {
-        type: ObjectId,
-      },
-      assignmentId: { type: Number },
-      status: { type: String },
-      description: { type: String },
-      courseId: { type: ObjectId },
-      title: { type: String },
-      score: { type: Number },
-      dueAt: { type: Date },
-      createdAt: { type: Date, default: Date.now },
-      updatedAt: { type: Date },
+const Schema = new mongoose.Schema(
+  {
+    _id: {
+      type: ObjectId,
     },
-    {
-      strict: false,
-      timestamps: false,
-      collection: "assignment",
-    }
-  )
+    assignmentId: { type: Number },
+    status: { type: String },
+    description: { type: String },
+    courseId: { type: ObjectId },
+    title: { type: String },
+    score: { type: Number },
+    dueAt: { type: Date },
+    createdAt: { type: Date, default: Date.now },
+    updatedAt: { type: Date },
+  },
+  {
+    strict: false,
+    timestamps: false,
+    collection: "assignment",
+  }
 )
+
+const Model = mongoose.model("assignment", Schema)
 
 export default mongoose.models.Assignment || Model

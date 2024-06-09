@@ -9,7 +9,6 @@ import router from "./route.main"
 import { startMongo } from "./lib/mongo"
 
 dotenv.config()
-// import { swaggerSpec } from "./swagger"
 
 const app: Express = express()
 
