@@ -1,7 +1,8 @@
-import { IUser, UserRequestBody } from "./user.type"
+import { IUser, UserLoginBody, UserRequestBody } from "./user.type"
 import type { NextFunction, Request, Response } from "express"
 
 import { IError } from "../main.type"
+import { createToken } from "../lib/helper"
 import userHandler from "./model/user.handler"
 
 class UserController {
@@ -15,8 +16,17 @@ class UserController {
     }
   }
 
-  login(req: Request, res: Response, next: NextFunction) {
-    res.json({ message: "Login" })
+  async login(req: Request, res: Response, next: NextFunction) {
+    try {
+      const loginUser: UserLoginBody = req.body
+      const user = await userHandler.getUserByEmail(loginUser.email)
+      // generate access token
+      const token = createToken(user)
+
+      res.json({ message: "Login.", data: { ...user, accessToken: token } })
+    } catch (error) {
+      next(error)
+    }
   }
 
   getMe(req: Request, res: Response, next: NextFunction) {

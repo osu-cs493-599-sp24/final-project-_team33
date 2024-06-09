@@ -10,3 +10,5 @@ export interface IUser {
 }
 
 export type UserRequestBody = Omit<IUser, "_id" | "description">
+
+export type UserLoginBody = Pick<IUser, "email" | "password">

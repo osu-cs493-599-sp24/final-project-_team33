@@ -24,7 +24,7 @@ class UserHandler implements IUserHandler {
   }
 
   async getUserById(userId: string): Promise<IUser> {
-    const user: IUser | null = await UserModel.findById(userId)
+    const user: IUser | null = (await UserModel.findById(userId))?.lean()
     if (!user) {
       const error: IError = new Error("User not found")
       error.status = 404
@@ -34,7 +34,7 @@ class UserHandler implements IUserHandler {
   }
 
   async getUserByEmail(email: string): Promise<IUser> {
-    const user: IUser | null = await UserModel.findOne({ email })
+    const user: IUser | null = await UserModel.findOne({ email })?.lean()
     if (!user) {
       const error: IError = new Error("User not found")
       error.status = 404

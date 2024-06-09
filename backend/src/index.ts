@@ -3,6 +3,7 @@ import type { Express, Request, Response } from "express"
 import { IError } from "./main.type"
 import cors from "cors"
 import dotenv from "dotenv"
+import errorMiddleware from "./middleware/error"
 import express from "express"
 import redis from "./lib/redis"
 import router from "./route.main"
@@ -14,6 +15,7 @@ const app: Express = express()
 
 const PORT = process.env.PORT || 3000
 
+// general middlewares for all routes
 app.use(express.json())
 app.use(cors())
 
@@ -25,17 +27,16 @@ app.get("/check", (req: Request, res: Response) => {
 
 app.use("/api/v1", router)
 
+// Handle path not found
 app.use("*", function (req: Request, res: Response) {
+  console.log("come here111")
   res.status(404).send({
     err: "This URL was not recognized: " + req.originalUrl,
   })
 })
 
-app.use((err: IError, req: Request, res: Response) => {
-  res.status(err.status || 500).json({
-    message: err.message,
-  })
-})
+// Handle Error Middleware
+app.use(errorMiddleware)
 
 const startMainProgram = async (): Promise<void> => {
   // startMongo()

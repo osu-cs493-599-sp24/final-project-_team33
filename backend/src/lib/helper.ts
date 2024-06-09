@@ -1,11 +1,12 @@
 import type { NextFunction, Request, Response } from "express"
 
+import { IUser } from "../user/user.type"
 import bcrypt from "bcryptjs"
 import jwt from "jsonwebtoken"
 
 const SECRET = process.env.JWT_SECRET || "TEAM33_SECRET"
 
-export const createToken = (user: any) => jwt.sign({ user }, SECRET, { expiresIn: "10d" })
+export const createToken = (user: IUser) => jwt.sign({ user }, SECRET, { expiresIn: "10d" })
 
 export const verifyToken = (token: string) => jwt.verify(token, SECRET)
 
