@@ -3,13 +3,13 @@ import { IUser, UserRequestBody } from "../user.type"
 import { IError } from "../../main.type"
 import UserModel from "./user.model"
 
-export interface IUserRepository {
+export interface IUserHandler {
   createUser: (user: UserRequestBody) => Promise<IUser>
   getUserByEmail: (email: string) => Promise<IUser>
   getUserById: (userId: string) => Promise<IUser>
 }
 
-class UserRepository implements IUserRepository {
+class UserHandler implements IUserHandler {
   async createUser(user: UserRequestBody) {
     const email = user.email
     const existedUser = await UserModel.findOne({ email })
@@ -44,4 +44,6 @@ class UserRepository implements IUserRepository {
   }
 }
 
-export default new UserRepository()
+const userHandler = new UserHandler()
+
+export default userHandler

@@ -2,11 +2,10 @@ import mongoose from "mongoose"
 
 const ObjectId = mongoose.Schema.Types.ObjectId
 
+export const USER_ROLES = ["admin", "instructor", "student"]
+
 const Schema = new mongoose.Schema(
   {
-    _id: {
-      type: ObjectId,
-    },
     description: { type: String },
     name: { type: String },
     email: {
@@ -18,7 +17,7 @@ const Schema = new mongoose.Schema(
     },
     role: {
       type: String,
-      enum: ["ADMIN", "INSTRUCTOR", "STUDENT"],
+      enum: USER_ROLES,
     },
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date },
