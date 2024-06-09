@@ -3,7 +3,7 @@ services:
   mongo:
     image: mongo:4.4
     environment:
-      - MONGO_INITDB_DATABASE=project33
+      - MONGO_INITDB_DATABASE=tarpaulin
       - MONGO_INITDB_ROOT_USERNAME=team33
       - MONGO_INITDB_ROOT_PASSWORD=team33
     volumes:
@@ -12,19 +12,26 @@ services:
     ports:
       - 27017:27017
     networks:
-      - local_hw4
+      - final_project
   mq:
     image: rabbitmq:3-management
     ports:
       - 5672:5672
       - 15672:15672
     networks:
-      - local_hw4
+      - final_project
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:15672"]
       interval: 30s
       timeout: 10s
       retries: 5
+  redis:
+    image: redis:6
+    restart: always
+    ports:
+      - "6379:6379"
+    networks:
+      - final_project
   api:
     build:
       context: .
@@ -33,22 +40,19 @@ services:
     command: npm start
     restart: on-failure
     ports:
-      - 8000:8000
+      - 3000:3000
     environment:
-      - MONGO_AUTH_DB=assignment4
-      - MONGO_HOST=mongo
-      - MONGO_PORT=27017
-      - MONGO_USER=userjirayu
-      - MONGO_PASSWORD=passwordjirayu
+      - MONGO_URL=mongodb://team33:team33@mongo:27017/tarpaulin
+      - REDIS_URL=redis://redis:6379
       - MQ_URL=amqp://mq:5672
     depends_on:
       - mongo
       - mq
     networks:
-      - local_hw4
+      - final_project
 
 networks:
-  local_hw4:
+  final_project:
     driver: bridge
 
 volumes:
