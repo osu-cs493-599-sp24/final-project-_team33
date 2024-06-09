@@ -4,9 +4,6 @@ const ObjectId = mongoose.Schema.Types.ObjectId
 
 const Schema = new mongoose.Schema(
   {
-    id: {
-      type: ObjectId,
-    },
     description: { type: String },
     assignmentId: { type: ObjectId },
     studentId: { type: ObjectId },

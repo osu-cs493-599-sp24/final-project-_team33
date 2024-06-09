@@ -2,8 +2,6 @@ import { comparePassword, hashPassword } from "../../lib/helper"
 
 import mongoose from "mongoose"
 
-const ObjectId = mongoose.Schema.Types.ObjectId
-
 export const USER_ROLES = ["admin", "instructor", "student"]
 
 const Schema = new mongoose.Schema(
@@ -30,7 +28,6 @@ const Schema = new mongoose.Schema(
     collection: "user",
   }
 )
-
 
 Schema.pre("save", function (next) {
   if (this.password && this.isModified("password")) {
