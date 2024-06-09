@@ -1,8 +1,21 @@
+import { IUser, UserRequestBody } from "./user.type"
 import type { NextFunction, Request, Response } from "express"
 
+import User from "./model/user.repository"
+
+export interface Repositories {
+  userModel: any
+}
+
 class UserController {
-  createUser(req: Request, res: Response, next: NextFunction) {
-    res.json({ message: "Create User" })
+  private _userRepository: any
+  constructor({ userModel }: Repositories) {
+    this._userRepository = userModel
+  }
+  async createUser(req: Request, res: Response, next: NextFunction) {
+    const body: UserRequestBody = req.body
+    const newUser: IUser = await this._userRepository.createUser(body)
+    res.status(201).json({ message: "Create User", data: newUser })
   }
 
   login(req: Request, res: Response, next: NextFunction) {
@@ -18,4 +31,4 @@ class UserController {
   }
 }
 
-export const userController = new UserController()
+export const userController = new UserController({ userModel: User })
