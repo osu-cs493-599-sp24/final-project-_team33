@@ -14,7 +14,7 @@ const Schema = new mongoose.Schema(
     term: { type: String },
     instructorId: { type: ObjectId },
     createdAt: { type: Date, default: Date.now },
-    updatedAt: { type: Date },
+    updatedAt: { type: Date, default: Date.now},
   },
   {
     strict: false,

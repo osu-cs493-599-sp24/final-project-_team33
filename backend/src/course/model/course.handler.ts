@@ -4,38 +4,40 @@ import CourseModel from "./course.model"
 import { IError } from "../../main.type"
 
 export interface ICourseHandler {
-  getCourseById: (courseId: string) => Promise<ICourse>
+  getCourses: () => Promise<ICourse[]>
   addCourse: (course: CourseRequestBody) => Promise<ICourse>
-  updateCourse: (courseId: string, course: ICourse) => Promise<ICourse>
+  getCourseById: (courseId: string) => Promise<ICourse>
+  updateCourseById: (courseId: string, course: ICourse) => Promise<ICourse>
+  deleteCourseById: (courseId: string) => Promise<void>
+  getStudentsByCourseId: (courseId: string) => Promise<string[]>
+  addEnrollment: (courseId: string, studentId: string) => Promise<void>
+  getCSVStudentList: (courseId: string) => Promise<string>
+  getAssignmentsByCourseId: (courseId: string) => Promise<string[]>
 }
 
 class CourseHandler implements ICourseHandler {
-  async getCourseById(courseId: string): Promise<ICourse> {
-    const course: ICourse | null = await CourseModel.findById(courseId)
-    if (!course) {
-      const error: IError = new Error("Course not found")
-      error.status = 404
-      throw error
-    }
-    return course
+  async getCourses(): Promise<ICourse[]> {
+    return []
   }
-
   async addCourse(course: CourseRequestBody): Promise<ICourse> {
-    const newCourse = new CourseModel(course)
-    await newCourse.save()
-    return newCourse
+    return {} as ICourse
   }
-
-  async updateCourse(courseId: string, course: ICourse): Promise<ICourse> {
-    const updatedCourse = await CourseModel.findByIdAndUpdate(courseId, course, {
-      new: true,
-    })
-    if (!updatedCourse) {
-      const error: IError = new Error("Course not found")
-      error.status = 404
-      throw error
-    }
-    return updatedCourse
+  async getCourseById(courseId: string): Promise<ICourse> {
+    return {} as ICourse
+  }
+  async updateCourseById(courseId: string, course: ICourse): Promise<ICourse> {
+    return {} as ICourse
+  }
+  async deleteCourseById(courseId: string): Promise<void> {}
+  async getStudentsByCourseId(courseId: string): Promise<string[]> {
+    return []
+  }
+  async addEnrollment(courseId: string, studentId: string): Promise<void> {}
+  async getCSVStudentList(courseId: string): Promise<string> {
+    return ""
+  }
+  async getAssignmentsByCourseId(courseId: string): Promise<string[]> {
+    return []
   }
 }
 
