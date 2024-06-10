@@ -12,7 +12,7 @@ class UserController {
       const body: UserRequestBody = req.body
       const newUser: IUser = await userHandler.createUser(body)
       res.status(201).json({ message: "Create User", data: newUser })
-    } catch (error) {
+    } catch (error: any) {
       next(error)
     }
   }
@@ -34,12 +34,14 @@ class UserController {
     }
   }
 
-  getMe(req: Request, res: Response, next: NextFunction) {
+  async getMe(req: Request, res: Response, next: NextFunction) {
     res.json({ message: "Get Me" })
   }
 
-  getUser(req: Request, res: Response, next: NextFunction) {
-    res.json({ message: "Get User" })
+  async getUser(req: Request, res: Response, next: NextFunction) {
+    const userId: string = req.params.userId
+    const user = await userHandler.getUserById(userId)
+    res.json({ data: _.omit(user, ["password", "__v"]) })
   }
 }
 
