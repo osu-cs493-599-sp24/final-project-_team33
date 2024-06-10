@@ -1,8 +1,8 @@
 import { IUser, UserRequestBody } from "../user.type"
-import { comparePassword, hashPassword } from "../../lib/helper"
+import { ObjectIdValidater, comparePassword, hashPassword } from "../../lib/helper"
 
-import { IError } from "../../main.type"
 import UserModel from "./user.model"
+import { createError } from "../../lib/helper"
 
 export interface IUserHandler {
   createUser: (user: UserRequestBody) => Promise<IUser>
@@ -15,9 +15,7 @@ class UserHandler implements IUserHandler {
     const email = user.email
     const existedUser = await UserModel.findOne({ email })
     if (existedUser) {
-      const error: IError = new Error("User existed")
-      error.status = 400
-      throw error
+      throw createError("User existed", 400)
     }
     const newUser = new UserModel({
       ...user,
@@ -26,13 +24,13 @@ class UserHandler implements IUserHandler {
     await newUser.save()
     return newUser
   }
-
   async getUserById(userId: string): Promise<IUser> {
+    if (!ObjectIdValidater(userId)) {
+      throw createError("Invalid user id", 400)
+    }
     const user: IUser | null = await UserModel.findById(userId)?.lean()
     if (!user) {
-      const error: IError = new Error("User not found")
-      error.status = 404
-      throw error
+      throw createError("User not found", 404)
     }
     return user
   }
@@ -40,9 +38,7 @@ class UserHandler implements IUserHandler {
   async getUserByEmail(email: string): Promise<IUser> {
     const user: IUser | null = await UserModel.findOne({ email })?.lean()
     if (!user) {
-      const error: IError = new Error("User not found")
-      error.status = 404
-      throw error
+      throw createError("User not found", 404)
     }
     return user
   }
@@ -50,9 +46,7 @@ class UserHandler implements IUserHandler {
   validatePassword(user: IUser, password: string): void {
     const comparedResult = comparePassword(password, user.password)
     if (!comparedResult) {
-      const error: IError = new Error("Password not match")
-      error.status = 400
-      throw error
+      throw createError("Password not match", 400)
     }
   }
 }

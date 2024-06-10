@@ -1,8 +1,10 @@
 import type { NextFunction, Request, Response } from "express"
 
+import { IError } from "../main.type"
 import { IUser } from "../user/user.type"
 import bcrypt from "bcryptjs"
 import jwt from "jsonwebtoken"
+import mongoose from "mongoose"
 
 const SECRET = process.env.JWT_SECRET || "TEAM33_SECRET"
 
@@ -36,3 +38,11 @@ export const combineMiddlewares =
     )
     handler()
   }
+
+export const ObjectIdValidater = (id: string) => mongoose.Types.ObjectId.isValid(id)
+
+export const createError = (message: string, status: number): IError => {
+  const error: IError = new Error(message)
+  error.status = status
+  return error
+}

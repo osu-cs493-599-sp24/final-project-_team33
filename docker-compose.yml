@@ -4,11 +4,11 @@ services:
     image: mongo:4.4
     environment:
       - MONGO_INITDB_DATABASE=tarpaulin
-      - MONGO_INITDB_ROOT_USERNAME=team33
-      - MONGO_INITDB_ROOT_PASSWORD=team33
+      - MONGO_INITDB_ROOT_USERNAME=userteam33
+      - MONGO_INITDB_ROOT_PASSWORD=passwordteam33
     volumes:
       - ./init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro
-      - mongodb_data:/data/db
+      - mongodb_data_33:/data/db
     ports:
       - 27017:27017
     networks:
@@ -42,7 +42,7 @@ services:
     ports:
       - 3000:3000
     environment:
-      - MONGO_URL=mongodb://team33:team33@mongo:27017/tarpaulin
+      - MONGO_URL=mongodb://userteam33:passwordteam33@mongo:27017/tarpaulin
       - REDIS_URL=redis://redis:6379
       - MQ_URL=amqp://mq:5672
     depends_on:
@@ -56,6 +56,6 @@ networks:
     driver: bridge
 
 volumes:
-  mongodb_data:
+  mongodb_data_33:
     driver: local
-    name: mongodb_data
+    name: mongodb_data_33
