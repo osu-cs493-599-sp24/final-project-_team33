@@ -13,3 +13,10 @@ Kubernetes Step
 5. Create a new Kubernetes cluster
   - gcloud container clusters create [cluster-name] --machine-type=e2-micro --zone-us-west1-a --num-nodes=2
   - gcloud container clusters get-credentials [cluster-name] --zone us-west1-a // to get the credentials for the cluster
+
+
+
+connect to mongodb
+docker exec -it [docker id] mongo
+use tarpaulin"
+db.auth("userteam33", "passwordteam33")

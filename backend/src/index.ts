@@ -29,7 +29,6 @@ app.use("/api/v1", router)
 
 // Handle path not found
 app.use("*", function (req: Request, res: Response) {
-  console.log("come here111")
   res.status(404).send({
     err: "This URL was not recognized: " + req.originalUrl,
   })
