@@ -12,6 +12,7 @@ class Redis {
 
   async connect() {
     console.log("connecting to redis")
+    console.log({ redisOption })
     this.client = await createClient(redisOption)
       .on("error", (err: any) => {
         console.log("Error", err)
