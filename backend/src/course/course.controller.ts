@@ -1,9 +1,11 @@
-import { ICourse, CourseRequestBody } from "./course.type"
+import { CourseRequestBody, ICourse } from "./course.type"
 import type { NextFunction, Request, Response } from "express"
-import courseHandler from "./model/course.handler"
+
 import _ from "lodash"
-import { number } from "joi"
+import courseHandler from "./model/course.handler"
 import mongoose from "mongoose"
+import { number } from "joi"
+
 class CourseController {
     // Retrieve all courses
     async getCourses(req: Request, res: Response, next: NextFunction) {
@@ -38,8 +40,8 @@ class CourseController {
     async getSpecificCourse(req: Request, res: Response, next: NextFunction) {
         try {
             const { courseId } = req.params
-            console.log(courseId)
             const course: ICourse = await courseHandler.getCourseById(Number(courseId))
+            console.log(course)
             res.status(200).json({ message: "Course retrieved successfully.", data: course })
         } catch (error: any) {
             next(error)
