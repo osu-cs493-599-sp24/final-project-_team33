@@ -1,8 +1,10 @@
+import { ObjectId } from "mongoose"
+
 export interface ICourse {
-  _id?: any
+  _id?: ObjectId
   description: string
   subject: string
-  number: number
+  courseId: number
   title: string
   term: string
   instructorId: string | number

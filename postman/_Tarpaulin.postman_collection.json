@@ -1,243 +1,339 @@
 {
-	"info": {
-		"_postman_id": "1ee04ed5-69c3-4b17-85bf-c04e46ef28ff",
-		"name": "_Tarpaulin",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "32600720"
-	},
-	"item": [
-		{
-			"name": "User",
-			"item": [
-				{
-					"name": "GetMe",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:3000/api/v1/users",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "3000",
-							"path": [
-								"api",
-								"v1",
-								"users"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Post User Student",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:3000/api/v1/users",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "3000",
-							"path": [
-								"api",
-								"v1",
-								"users"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Post User Instructor",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:3000/api/v1/users",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "3000",
-							"path": [
-								"api",
-								"v1",
-								"users"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Post User Admin",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:3000/api/v1/users",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "3000",
-							"path": [
-								"api",
-								"v1",
-								"users"
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "Assignment",
-			"item": [
-				{
-					"name": "Create a new Assignment",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:3001/api/v1/assignments",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "3001",
-							"path": [
-								"api",
-								"v1",
-								"assignments"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Fetch data about a specific Assignment",
-					"request": {
-						"method": "GET",
-						"header": []
-					},
-					"response": []
-				},
-				{
-					"name": "Update data for a specific Assignment",
-					"request": {
-						"method": "PATCH",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:3001/api/v1/assignments/6668fa36b8ee7090b7ddd6e8",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "3001",
-							"path": [
-								"api",
-								"v1",
-								"assignments",
-								"6668fa36b8ee7090b7ddd6e8"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Remove a specific Assignment",
-					"request": {
-						"method": "GET",
-						"header": []
-					},
-					"response": []
-				},
-				{
-					"name": "Create a new Submission for an Assignment",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"assignmentId\": \"66693402d7ccb80a0bc8a127\",\r\n    \"studentId\": \"66693402d7ccb80a0bc8a127\",\r\n    \"timestamp\": \"2022-06-14T17:00:00-07:00\",\r\n    \"grade\": 94.5,\r\n    \"file\": \"string\"\r\n}\r\n",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:3001/api/v1/assignments/66693402d7ccb80a0bc8a127/submissions",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "3001",
-							"path": [
-								"api",
-								"v1",
-								"assignments",
-								"66693402d7ccb80a0bc8a127",
-								"submissions"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Fetch the list of all Submissions for an Assignment",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:3001/api/v1/assignments/66693402d7ccb80a0bc8a127/submissions",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "3001",
-							"path": [
-								"api",
-								"v1",
-								"assignments",
-								"66693402d7ccb80a0bc8a127",
-								"submissions"
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "Course",
-			"item": []
-		},
-		{
-			"name": "Submission",
-			"item": [
-				{
-					"name": "Download the file for a specific Submission",
-					"request": {
-						"method": "GET",
-						"header": []
-					},
-					"response": []
-				},
-				{
-					"name": "Update data for a specific Submission",
-					"request": {
-						"method": "GET",
-						"header": []
-					},
-					"response": []
-				}
-			]
-		}
-	]
+  "info": {
+    "_postman_id": "1ee04ed5-69c3-4b17-85bf-c04e46ef28ff",
+    "name": "_Tarpaulin",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "32600720"
+  },
+  "item": [
+    {
+      "name": "User",
+      "item": [
+        {
+          "name": "GetMe",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3000/api/v1/users",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["api", "v1", "users"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Post User Student",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3000/api/v1/users",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["api", "v1", "users"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Post User Instructor",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3000/api/v1/users",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["api", "v1", "users"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Post User Admin",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3000/api/v1/users",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["api", "v1", "users"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Assignment",
+      "item": [
+        {
+          "name": "Create a new Assignment",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3001/api/v1/assignments",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3001",
+              "path": ["api", "v1", "assignments"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Fetch data about a specific Assignment",
+          "request": {
+            "method": "GET",
+            "header": []
+          },
+          "response": []
+        },
+        {
+          "name": "Update data for a specific Assignment",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3001/api/v1/assignments/6668fa36b8ee7090b7ddd6e8",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3001",
+              "path": ["api", "v1", "assignments", "6668fa36b8ee7090b7ddd6e8"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Remove a specific Assignment",
+          "request": {
+            "method": "GET",
+            "header": []
+          },
+          "response": []
+        },
+        {
+          "name": "Create a new Submission for an Assignment",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"assignmentId\": \"66693402d7ccb80a0bc8a127\",\r\n    \"studentId\": \"66693402d7ccb80a0bc8a127\",\r\n    \"timestamp\": \"2022-06-14T17:00:00-07:00\",\r\n    \"grade\": 94.5,\r\n    \"file\": \"string\"\r\n}\r\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:3001/api/v1/assignments/66693402d7ccb80a0bc8a127/submissions",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3001",
+              "path": ["api", "v1", "assignments", "66693402d7ccb80a0bc8a127", "submissions"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Fetch the list of all Submissions for an Assignment",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3001/api/v1/assignments/66693402d7ccb80a0bc8a127/submissions",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3001",
+              "path": ["api", "v1", "assignments", "66693402d7ccb80a0bc8a127", "submissions"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Course",
+      "item": [
+        {
+          "name": "Get Course",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3001/api/v1/courses",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3001",
+              "path": ["api", "v1", "courses"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Course",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"subject\": \"CS\",\n  \"number\": \"493\",\n  \"title\": \"Cloud Application Development\",\n  \"term\": \"sp22\",\n  \"instructorId\": 123\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:3001/api/v1/courses",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3001",
+              "path": ["api", "v1", "courses"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Find Specific Course",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3001/api/v1/courses/493",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3001",
+              "path": ["api", "v1", "courses", "493"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Specific Course",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"subject\": \"Math\",\n  \"courseId\": \"493\",\n  \"title\": \"Cloud Application Development\",\n  \"term\": \"win22\",\n  \"instructorId\": 123\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:3001/api/v1/courses/493",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3001",
+              "path": ["api", "v1", "courses", "493"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Course",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3001/api/v1/courses/493",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3001",
+              "path": ["api", "v1", "courses", "493"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get All students under CourseId",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3001/api/v1/courses/321/students",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3001",
+              "path": ["api", "v1", "courses", "321", "students"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Add Enrollment",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n        \"studentId\": \"666969ba075bfd1b50cca979\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:3001/api/v1/courses/321/students",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3001",
+              "path": ["api", "v1", "courses", "321", "students"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "CSV file",
+          "request": {
+            "method": "GET",
+            "header": []
+          },
+          "response": []
+        },
+        {
+          "name": "New Request",
+          "request": {
+            "method": "GET",
+            "header": []
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Submission",
+      "item": [
+        {
+          "name": "Download the file for a specific Submission",
+          "request": {
+            "method": "GET",
+            "header": []
+          },
+          "response": []
+        },
+        {
+          "name": "Update data for a specific Submission",
+          "request": {
+            "method": "GET",
+            "header": []
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
 }
