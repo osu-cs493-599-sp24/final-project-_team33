@@ -43,7 +43,12 @@
   - kubectl port-forward service/redis-service 6379:6379 // [local:remote-service-port] to forward port
 
 
-connect to mongodb
-docker exec -it [docker id] mongo
-use tarpaulin"
-db.auth("userteam33", "passwordteam33")
+## Set up artifact for docker image registry at google cloud
+gcloud artifacts repositories create team33-repo \
+    --project=cs599-cloud \
+    --repository-format=docker \
+    --location=us-west1 \
+    --description="Docker repository"
+  
+gcloud builds submit \
+  --tag us-west1-docker.pkg.dev/cs599-cloud/team33-repo/api .
