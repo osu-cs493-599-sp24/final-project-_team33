@@ -1,12 +1,13 @@
+import { Number } from "mongoose"
+
 export interface ISubmission {
   _id?: string
-  description: string
-  assignmentId: string
-  studentId: string
-  score: number
-  fileIds: string[]
-  createdAt: Date
-  updatedAt: Date
+  assignmentId: Number
+  studentId: Number
+  timestamp: Date
+  grade?: Number
+  file: string
 }
 
-export type SubmissionRequestBody = {}
+
+export type SubmissionRequestBody = Omit<ISubmission, "_id" | "grade">
