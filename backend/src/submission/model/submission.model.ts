@@ -19,8 +19,10 @@ const SubmissionSchema = new mongoose.Schema(
       default: Date.now,
     },
     file: {
+      type: Object,
+    },
+    fileId: {
       type: String,
-      required: true,
     },
     grade: {
       type: Number,

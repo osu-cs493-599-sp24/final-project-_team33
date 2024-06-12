@@ -1,20 +1,24 @@
+import { Buffer } from "node:buffer"
+import { Readable } from "node:stream"
 import crypto from "crypto"
 import fs from "fs"
 import mongoose from "mongoose"
 import multer from "multer"
-const { Buffer } = require("node:buffer")
-const { Readable } = require("node:stream")
 
 const imageTypes: any = {
   "image/jpeg": "jpg",
   "image/png": "png",
+  "application/pdf": "pdf",
 }
 
+export const pdfPath = `src/submission/upload`
+
 const storage: any = multer.diskStorage({
-  destination: `src/submission/upload`,
+  destination: pdfPath,
   filename: (_: any, file: any, callback: any) => {
     const filename = crypto.pseudoRandomBytes(16).toString("hex")
     const extension: any = imageTypes[file.mimetype]
+    console.log("file", file)
     callback(null, `${filename}.${extension}`)
   },
 })
@@ -26,12 +30,12 @@ export const upload: any = multer({
   },
 })
 
-export const uploadPhoto = ({ filePath, fileName, bucketName }: any) => {
+export const uploadFile = ({ filePath, fileName, bucketName }: any) => {
   const db = mongoose.connections[0].db
   const bucket = new mongoose.mongo.GridFSBucket(db, {
     bucketName: bucketName,
   })
-  const data = fs.readFileSync(filePath)
+  // const data = fs.readFileSync(filePath)
   const uploadStream = bucket.openUploadStream(fileName)
   const buffer = fs.readFileSync(filePath)
   return new Promise((resolve, reject) => {

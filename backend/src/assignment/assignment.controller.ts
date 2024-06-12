@@ -1,9 +1,12 @@
+import {} from "../lib/upload"
+
 import { AssignmentRequestBody, IAssignment } from "./assignment.type"
 // controllers/assignmentController.ts
 import { Request, Response } from "express"
 
 import { SubmissionRequestBody } from "../submission/submission.type"
 import assignmentHandler from "./model/assignment.handler"
+import { uploadFile } from "../lib/upload"
 
 class AssignmentController {
   async createAssignment(req: any, res: Response) {
@@ -80,13 +83,36 @@ class AssignmentController {
     }
   }
 
-  async createSubmission(req: Request<{ id: string }, {}, SubmissionRequestBody>, res: Response) {
+  async createSubmission(req: any, res: Response, next: any) {
     try {
-      const submission = await assignmentHandler.addSubmissionByAssignmentId(
-        req.params.id,
-        req.body
-      )
-      res.status(201).json({ id: submission._id })
+      const assignmentId = req.params.id
+      const user = req.user
+      const studentId = user._id
+
+      console.log("req.file", req.file)
+      const file = req.file
+      const { path, filename } = file
+      const fileId = await uploadFile({
+        fileName: filename,
+        filePath: path,
+        bucketName: "submissionFile",
+      })
+
+      const body: any = {
+        assignmentId: assignmentId,
+        studentId: studentId,
+        timestamp: new Date(),
+        grade: 0,
+      }
+
+      if (file) {
+        body.file = file
+        body.fileId = fileId
+      }
+      const submission: any = await assignmentHandler.addSubmission(body)
+
+      //   res.status(201).json({ id: submission._id })
+      res.status(201).json({ message: "Submission created successfully", data: submission })
     } catch (error) {
       res.status(400).json({ error: "Invalid submission data" })
     }

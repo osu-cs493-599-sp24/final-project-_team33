@@ -2,6 +2,7 @@ import type { Router } from "express"
 import { assignmentController } from "./assignment.controller"
 import { authMiddleWare } from "../middleware/auth"
 import express from "express"
+import { upload } from "../lib/upload"
 
 const router: Router = express.Router()
 
@@ -20,10 +21,19 @@ router.delete(
 
 //Submission routes
 router.get("/:id/submissions", assignmentController.getSubmissionsByAssignmentId)
+
 router.post(
   "/:id/submissions",
-  authMiddleWare(["student", "admin"]),
+  authMiddleWare(["student"]),
+  upload.single("file"),
   assignmentController.createSubmission
 )
+
+// router.patch(
+//   "/:id/submissions",
+//   authMiddleWare(["instructor", "admin"]),
+//   upload.single("file"),
+//   assignmentController.updateSubmission
+// )
 
 export default router
