@@ -12,7 +12,7 @@ const Schema = new mongoose.Schema(
     subject: { type: String },
     title: { type: String },
     term: { type: String },
-    instructorId: { type: Number },
+    instructorId: { type: ObjectId, ref: "user" },
 
     students: [{ type: ObjectId, ref: "user" }],
     assignments: [{ type: ObjectId, ref: "assignment" }],
