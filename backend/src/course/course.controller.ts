@@ -46,7 +46,6 @@ class CourseController {
     try {
       const { courseId } = req.params
       const course: ICourse = await courseHandler.getCourseById(Number(courseId))
-      console.log(course)
       res.status(200).json({ message: "Course retrieved successfully.", data: course })
     } catch (error: any) {
       next(error)
@@ -54,10 +53,18 @@ class CourseController {
   }
 
   // Update a specific course by ID
-  async updateCourse(req: Request, res: Response, next: NextFunction) {
+  async updateCourse(req: any, res: Response, next: NextFunction) {
     try {
       const { courseId } = req.params
       const courseBody: Partial<ICourse> = req.body
+      const user = req.user
+      const course = await courseHandler.getCourseById(Number(courseId))
+      if (!course) {
+        throw new Error("Course not found")
+      }
+      if (!course.instructorId.equals(user._id)) {
+        throw new Error("Unauthorized access")
+      }
       const updatedCourse: ICourse = await courseHandler.updateCourseById(
         Number(courseId),
         courseBody
@@ -69,8 +76,11 @@ class CourseController {
   }
 
   // Delete a specific course by ID
-  async deleteCourse(req: Request, res: Response, next: NextFunction) {
+  async deleteCourse(req: any, res: Response, next: NextFunction) {
     try {
+      if (req.user.role !== "admin") {
+        throw new Error("Unauthorized access")
+      }
       const { courseId } = req.params
       await courseHandler.deleteCourseById(Number(courseId))
       res.status(200).json({ message: "Course deleted successfully." })
@@ -80,10 +90,17 @@ class CourseController {
   }
 
   // Retrieve students enrolled in a specific course
-  async getCourseStudents(req: Request, res: Response, next: NextFunction) {
+  async getCourseStudents(req: any, res: Response, next: NextFunction) {
     try {
-      console.log("Here")
       const { courseId } = req.params
+      const user = req.user
+      const course = await courseHandler.getCourseById(Number(courseId))
+      if (!course) {
+        throw new Error("Course not found")
+      }
+      if (!course.instructorId.equals(user._id)) {
+        throw new Error("Unauthorized access")
+      }
       const students = await courseHandler.getStudentsByCourseId(Number(courseId))
       console.log(students)
       res.status(200).json({ message: "Students retrieved successfully.", students })
@@ -93,12 +110,18 @@ class CourseController {
   }
 
   // Update enrollment for a specific course
-  async updateEnrollment(req: Request, res: Response, next: NextFunction) {
+  async updateEnrollment(req: any, res: Response, next: NextFunction) {
     try {
       const { courseId } = req.params
-      console.log(courseId)
       const { studentId } = req.body
-      console.log(studentId)
+      const user = req.user
+      const course = await courseHandler.getCourseById(Number(courseId))
+      if (!course) {
+        throw new Error("Course not found")
+      }
+      if (!course.instructorId.equals(user._id)) {
+        throw new Error("Unauthorized access")
+      }
       await courseHandler.addEnrollment(Number(courseId), new mongoose.Types.ObjectId(studentId))
       res.status(200).json({ message: "Enrollment updated successfully." })
     } catch (error: any) {

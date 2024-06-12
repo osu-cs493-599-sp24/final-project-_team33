@@ -54,7 +54,9 @@ class AssignmentController {
   async deleteAssignmentById(req: Request<{ id: string }>, res: Response) {
     try {
       await assignmentHandler.deleteAssignmentById(req.params.id)
-      res.status(204).send()
+      res.status(204).json({
+        message: "Assignment deleted successfully.",
+      })
     } catch (error) {
       res.status(500).json({ error: "Internal server error" })
     }

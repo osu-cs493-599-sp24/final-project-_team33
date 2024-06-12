@@ -51,7 +51,7 @@ class AssignmentHandler implements IAssignmentHandler {
   }
 
   async getCourseByAssignmentId(assignmentId: string): Promise<any> {
-    const course: any = await Course.findOne({ assignments: assignmentId }).lean()
+    const course: any = await CourseModel.findOne({ assignments: assignmentId }).lean()
     if (!course) {
       throw new Error("Course not found")
     }
@@ -68,7 +68,6 @@ class AssignmentHandler implements IAssignmentHandler {
 
   async deleteAssignmentById(assignmentId: string): Promise<void> {
     const course = await this.getCourseByAssignmentId(assignmentId)
-    // remove assignment from course.assignments
     await CourseModel.findByIdAndUpdate(course._id, {
       $pull: { assignments: new ObjectId(assignmentId) },
     }).exec()
@@ -84,13 +83,13 @@ class AssignmentHandler implements IAssignmentHandler {
     return submissionHandler.getSubmissionsByAssignmentId(assignmentId, page, studentId)
   }
 
-  async addSubmissionByAssignmentId(
-    assignmentId: string,
-    submission: SubmissionRequestBody
-  ): Promise<ISubmission> {
-    submission.assignmentId = new mongoose.Types.ObjectId(assignmentId)
-    return submissionHandler.addSubmission(submission)
-  }
+  // async addSubmissionByAssignmentId(
+  //   assignmentId: string,
+  //   submission: SubmissionRequestBody
+  // ): Promise<ISubmission> {
+  //   submission.assignmentId = new mongoose.Types.ObjectId(assignmentId)
+  //   return submissionHandler.addSubmission(submission)
+  // }
 }
 
 const assignmentHandler = new AssignmentHandler()
