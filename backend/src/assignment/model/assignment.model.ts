@@ -1,23 +1,28 @@
-import mongoose from "mongoose"
-
-const ObjectId = mongoose.Schema.Types.ObjectId
+import mongoose from 'mongoose'
 
 const Schema = new mongoose.Schema(
   {
-    assignmentId: { type: Number },
-    status: { type: String },
-    description: { type: String },
-    courseId: { type: ObjectId },
-    title: { type: String },
-    score: { type: Number },
-    dueAt: { type: Date },
-    createdAt: { type: Date, default: Date.now },
-    updatedAt: { type: Date },
+    courseId: {
+      type: String,
+      required: true
+    },
+    title: {
+      type: String,
+      required: true
+    },
+    points: {
+      type: Number,
+      required: true
+    },
+    due: {
+      type: String,
+      required: true
+    }
   },
   {
     strict: false,
-    timestamps: false,
-    collection: "assignment",
+    timestamps: true, // Automatically manage createdAt and updatedAt
+    collection: 'assignment',
   }
 )
 

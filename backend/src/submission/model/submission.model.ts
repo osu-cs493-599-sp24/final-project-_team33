@@ -1,22 +1,37 @@
-import mongoose from "mongoose"
+// models/Submission.ts
+import mongoose from 'mongoose';
 
-const ObjectId = mongoose.Schema.Types.ObjectId
+const ObjectId = mongoose.Schema.Types.ObjectId;
 
-const Schema = new mongoose.Schema(
+const SubmissionSchema = new mongoose.Schema(
   {
-    description: { type: String },
-    assignmentId: { type: ObjectId },
-    studentId: { type: ObjectId },
-    score: { type: Number, default: 0, min: 0, max: 100 },
-    fileIds: { type: [ObjectId], default: [] },
-    createdAt: { type: Date, default: Date.now },
-    updatedAt: { type: Date },
+    assignmentId: {
+      type: ObjectId,
+      ref: 'Assignment',
+      required: true,
+    },
+    studentId: {
+      type: ObjectId,
+      ref: 'User',
+      required: true,
+    },
+    timestamp: {
+      type: Date,
+      default: Date.now,
+    },
+    file: {
+      type: String,
+      required: true,
+    },
+    grade: {
+      type: Number,
+      default: null,
+    },
   },
   {
-    strict: false,
-    timestamps: false,
-    collection: "submission",
+    timestamps: true,
+    collection: 'submissions',
   }
-)
+);
 
-export default mongoose.models.Submission || mongoose.model("submission", Schema)
+export default mongoose.models.Submission || mongoose.model('Submission', SubmissionSchema);

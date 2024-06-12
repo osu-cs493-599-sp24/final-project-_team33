@@ -1,9 +1,9 @@
 export interface IAssignment {
   _id?: any
-  title: string
-  description: string
   courseId: string
-  dueDate: Date
+  title: string
+  points: number
+  due: string
   createdAt?: Date
   updatedAt?: Date
 }
