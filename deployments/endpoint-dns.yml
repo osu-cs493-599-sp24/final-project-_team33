@@ -1,0 +1,17 @@
+swagger: "2.0"
+info:
+  title: "Cloud Endpoints DNS"
+  version: "1.0.0"
+host: "backend-api.endpoints.cs599-cloud.cloud.goog"
+x-google-endpoints:
+- name: "backend-api.endpoints.cs599-cloud.cloud.goog"
+  target: "34.107.129.215"
+paths:
+  /:
+    get:
+      operationId: getRoot
+      summary: "Root endpoint"
+      description: "Endpoint to check the status of the API"
+      responses:
+        200:
+          description: "Success"

@@ -53,4 +53,11 @@ gcloud artifacts repositories create team33-repo \
     --description="Docker repository"
   
 gcloud builds submit \
-  --tag us-west1-docker.pkg.dev/cs599-cloud/team33-repo/api ./Dockerfile_gcloud
+  --tag us-west1-docker.pkg.dev/cs599-cloud/team33-repo/api .
+
+
+## Create Google Static IP
+1. gcloud compute addresses create static-ip --global
+
+// create endpoint mapping to static ip address
+2. gcloud endpoints services deploy ./deployments/endpoint-dns.yaml

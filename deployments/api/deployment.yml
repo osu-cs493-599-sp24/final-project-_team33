@@ -36,4 +36,5 @@ spec:
           - name: MONGO_URL
             value: "mongodb://$(MONGO_USER):$(MONGO_PASSWORD)@34.118.230.83:27017/tarpaulin"
           - name: REDIS_URL
+            # value: "redis://10.28.240.227:6379"
             value: "redis://34.118.237.11:6379"
