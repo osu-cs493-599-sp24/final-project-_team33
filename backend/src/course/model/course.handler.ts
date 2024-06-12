@@ -3,7 +3,7 @@ import { CourseRequestBody, ICourse } from "../course.type"
 import CourseModel from "./course.model"
 import userModel from "../../user/model/user.model"
 import { error } from "console"
-
+import mongoose, { ObjectId } from "mongoose"
 export interface ICourseHandler {
   getCourses: (page: number, limit: number) => Promise<{
     courses: ICourse[], total: number
@@ -13,7 +13,8 @@ export interface ICourseHandler {
   updateCourseById: (courseId: number, course: Partial<ICourse>) => Promise<ICourse>
   deleteCourseById: (courseId: number) => Promise<void>
   getStudentsByCourseId: (courseId: number, userId: number) => Promise<{ name: string; email: string; role: string }[]>
-  addEnrollment: (courseId: number, studentId: number) => Promise<void>
+  addEnrollment: (courseId: number, studentId: mongoose.Types.ObjectId) => Promise<void>
+  removeEnrollment: (courseId: number, studentId: mongoose.Types.ObjectId) => Promise<void>
   getCSVStudentList: (courseId: number) => Promise<string>
   getAssignmentsByCourseId: (courseId: number) => Promise<string[]>
 }
@@ -44,15 +45,10 @@ class CourseHandler implements ICourseHandler {
     await CourseModel.findOneAndDelete({ courseId }).exec()
   }
 
-  async getStudentsByCourseId(courseId: number, userId: number): Promise<{ name: string; email: string; role: string }[]> {
+  async getStudentsByCourseId(courseId: number): Promise<{ name: string; email: string; role: string }[]> {
     const course = await CourseModel.findOne({ courseId }).populate('students').exec()
     if (!course) {
       throw new Error("course not found")
-    }
-    const user = await userModel.findById(userId).exec()
-    if (!user) throw new Error("user not found")
-    if (user.role != "admin" && course.instructorId !== userId) {
-      throw new Error("unauthorized")
     }
     return course.students.map((student: any) => ({
       name: student.name,
@@ -61,12 +57,39 @@ class CourseHandler implements ICourseHandler {
     }))
   }
 
-  async addEnrollment(courseId: number, studentId: number): Promise<void> {
-    await CourseModel.findByIdAndUpdate(courseId, { $addToSet: { students: studentId } }).exec()
+  async addEnrollment(courseId: number, studentId: mongoose.Types.ObjectId): Promise<void> {
+    const course = await CourseModel.findOne({ courseId });
+    if (!course) {
+      throw new Error('Course not found');
+    }
+
+    if (!mongoose.Types.ObjectId.isValid(studentId)) {
+      throw new Error('Invalid student ID');
+    }
+
+    if (!course.students.includes(studentId)) {
+      course.students.push(studentId);
+      await course.save();
+    }
+    // await CourseModel.findByIdAndUpdate(courseId, { $addToSet: { students: studentId } }).exec()
+  }
+
+  async removeEnrollment(courseId: number, studentId: mongoose.Types.ObjectId): Promise<void> {
+    const course = await CourseModel.findOne({ courseId });
+    if (!course) {
+      throw new Error('Course not found');
+    }
+
+    if (!mongoose.Types.ObjectId.isValid(studentId)) {
+      throw new Error('Invalid student ID');
+    }
+
+    course.students = course.students.filter(id => !id.equals(studentId));
+    await course.save();
   }
 
   async getCSVStudentList(courseId: number): Promise<string> {
-    const course = await CourseModel.findById(courseId).populate('students').exec()
+    const course = await CourseModel.findOne({ courseId }).populate('students').exec()
     const csvData = course.students.map((student: any) => `${student._id},${student.name},${student.email}`).join('\n')
     return `ID,Name,Email\n${csvData}`
   }

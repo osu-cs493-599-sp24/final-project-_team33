@@ -11,6 +11,7 @@ router.patch("/:courseId", courseController.updateCourse)
 router.delete("/:courseId", courseController.deleteCourse)
 router.get("/:courseId/students", courseController.getCourseStudents)
 router.post("/:courseId/students", courseController.updateEnrollment)
+router.delete("/:courseId/students", courseController.removeEnrollment);
 router.get("/:courseId/roster", courseController.fetchCSVstudents)
 router.get("/:courseId/assignments", courseController.fetchCourseAssignment)
 

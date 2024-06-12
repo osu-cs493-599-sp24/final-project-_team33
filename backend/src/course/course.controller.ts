@@ -3,13 +3,13 @@ import type { NextFunction, Request, Response } from "express"
 import courseHandler from "./model/course.handler"
 import _ from "lodash"
 import { number } from "joi"
-
+import mongoose from "mongoose"
 class CourseController {
     // Retrieve all courses
     async getCourses(req: Request, res: Response, next: NextFunction) {
         try {
             const page = parseInt(req.query.page as string) || 1
-            const limit = parseInt(req.query.limit as string) || 2
+            const limit = parseInt(req.query.limit as string) || 10
             const { courses, total } = await courseHandler.getCourses(page, limit)
             res.status(200).json({
                 message: "Courses retrieved successfully.",
@@ -73,8 +73,7 @@ class CourseController {
     async getCourseStudents(req: Request, res: Response, next: NextFunction) {
         try {
             const { courseId } = req.params
-            const userId = req.user._id
-            const students = await courseHandler.getStudentsByCourseId(Number(courseId), userId)
+            const students = await courseHandler.getStudentsByCourseId(Number(courseId))
             res.status(200).json({ message: "Students retrieved successfully.", data: students })
         } catch (error: any) {
             next(error)
@@ -85,11 +84,23 @@ class CourseController {
     async updateEnrollment(req: Request, res: Response, next: NextFunction) {
         try {
             const { courseId } = req.params
+            console.log(courseId)
             const { studentId } = req.body
-            await courseHandler.addEnrollment(Number(courseId), studentId)
+            console.log(studentId)
+            await courseHandler.addEnrollment(Number(courseId), new mongoose.Types.ObjectId(studentId))
             res.status(200).json({ message: "Enrollment updated successfully." })
         } catch (error: any) {
             next(error)
+        }
+    }
+    async removeEnrollment(req: Request, res: Response, next: NextFunction) {
+        try {
+            const { courseId } = req.params;
+            const { studentId } = req.body;
+            await courseHandler.removeEnrollment(Number(courseId), new mongoose.Types.ObjectId(studentId));
+            res.status(200).json({ message: "Student removed successfully." });
+        } catch (error: any) {
+            next(error);
         }
     }
 
@@ -98,7 +109,9 @@ class CourseController {
         try {
             const { courseId } = req.params
             const csvData: string = await courseHandler.getCSVStudentList(Number(courseId))
-            res.status(200).attachment('students.csv').send(csvData)
+            res.header('Content-Type', 'text/csv');
+            res.header('Content-Disposition', 'attachment; filename="students.csv"');
+            res.status(200).send(csvData);
         } catch (error: any) {
             next(error)
         }
