@@ -2,13 +2,6 @@ version: "3"
 services:
   mongo:
     image: mongo:4.4
-    environment:
-      - MONGO_INITDB_DATABASE=tarpaulin
-      - MONGO_INITDB_ROOT_USERNAME=userteam33
-      - MONGO_INITDB_ROOT_PASSWORD=passwordteam33
-    volumes:
-      - ./init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro
-      - mongodb_data_33:/data/db
     ports:
       - 27017:27017
     networks:
@@ -21,7 +14,7 @@ services:
     networks:
       - final_project
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:15672"]
+      test: [ "CMD", "curl", "-f", "http://localhost:15672" ]
       interval: 30s
       timeout: 10s
       retries: 5
@@ -56,6 +49,6 @@ networks:
     driver: bridge
 
 volumes:
-  mongodb_data_33:
+  mongodb_data_333:
     driver: local
-    name: mongodb_data_33
+    name: mongodb_data_333

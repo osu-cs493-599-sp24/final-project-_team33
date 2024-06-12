@@ -1,3 +1,4 @@
+import { number, ref } from "joi"
 import mongoose from "mongoose"
 
 const ObjectId = mongoose.Schema.Types.ObjectId
@@ -9,9 +10,11 @@ const Schema = new mongoose.Schema(
     subject: { type: String },
     title: { type: String },
     term: { type: String },
-    instructorId: { type: ObjectId },
+    instructorId: { type: Number },
+
+    students: [{ type: ObjectId, ref: "user" }],
     createdAt: { type: Date, default: Date.now },
-    updatedAt: { type: Date, default: Date.now},
+    updatedAt: { type: Date, default: Date.now },
   },
   {
     strict: false,

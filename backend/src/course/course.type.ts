@@ -2,7 +2,7 @@ export interface ICourse {
   _id?: any
   description: string
   subject: string
-  number: number
+  courseId: number
   title: string
   term: string
   instructorId: string | number
