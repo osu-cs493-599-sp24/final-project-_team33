@@ -1,9 +1,10 @@
 // handlers/assignmentHandler.ts
 import { AssignmentRequestBody, IAssignment } from "../assignment.type"
-import { SubmissionRequestBody, ISubmission } from "../../submission/submission.type"
+import { ISubmission, SubmissionRequestBody } from "../../submission/submission.type"
+
 import AssignmentModel from "./assignment.model"
-import submissionHandler from '../../submission/model/submission.handler'
 import mongoose from 'mongoose'
+import submissionHandler from '../../submission/model/submission.handler'
 
 export interface IAssignmentHandler {
   addAssignment: (assignment: AssignmentRequestBody) => Promise<IAssignment>

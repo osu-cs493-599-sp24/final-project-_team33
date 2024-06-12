@@ -1,28 +1,28 @@
-import mongoose from 'mongoose'
+import mongoose from "mongoose"
 
 const Schema = new mongoose.Schema(
   {
     courseId: {
       type: String,
-      required: true
+      required: true,
     },
     title: {
       type: String,
-      required: true
+      required: true,
     },
     points: {
       type: Number,
-      required: true
+      required: true,
     },
     due: {
-      type: String,
-      required: true
-    }
+      type: Date,
+      required: true,
+    },
   },
   {
     strict: false,
     timestamps: true, // Automatically manage createdAt and updatedAt
-    collection: 'assignment',
+    collection: "assignment",
   }
 )
 

@@ -99,7 +99,7 @@ class CourseHandler implements ICourseHandler {
       throw new Error("Invalid student ID")
     }
 
-    course.students = course.students.filter(id => !id.equals(studentId))
+    course.students = course.students.filter((id: any) => !id.equals(studentId))
     await course.save()
   }
 

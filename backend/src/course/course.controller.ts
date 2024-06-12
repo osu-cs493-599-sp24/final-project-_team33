@@ -26,10 +26,15 @@ class CourseController {
   }
 
   // Create a new course
-  async createCourse(req: Request, res: Response, next: NextFunction) {
+  async createCourse(req: any, res: Response, next: NextFunction) {
     try {
       const courseBody: CourseRequestBody = req.body
-      const newCourse: ICourse = await courseHandler.addCourse(courseBody)
+      const user = req.user
+      const bodyAssignment = {
+        ...courseBody,
+        instructorId: user._id,
+      }
+      const newCourse: ICourse = await courseHandler.addCourse(bodyAssignment)
       res.status(201).json({ message: "Course created successfully.", data: newCourse })
     } catch (error: any) {
       next(error)
