@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: backend-api
+  template:
+    metadata:
+      labels:
+        app: backend-api
+    spec:
+      containers:
+      - name: backend-api
+        # Replace $LOCATION with your Artifact Registry location (e.g., us-west1).
+        # Replace $GCLOUD_PROJECT with your project ID.
+        image: us-west1-docker.pkg.dev/cs599-cloud/team33-repo/api:latest
+        # This app listens on port 8080 for web traffic by default.
+        ports:
+        - containerPort: 3000
+        env:
+          - name: PORT
+            value: "3000"
+          - name: MONGO_USER
+            valueFrom:
+              secretKeyRef:
+                name: mongodb-secret
+                key: mongodb-root-username
+          - name: MONGO_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: mongodb-secret
+                key: mongodb-root-username                
+          - name: MONGO_URL
+            value: "mongodb://$(MONGO_USER):$(MONGO_PASSWORD)@mongodb-service:27017/tarpaulin"
+          - name: REDIS_URL
+            value: "redis://redis-service:6379"
+        resources:
+          requests:
+            memory: "1Gi"
+            cpu: "500m"
+            ephemeral-storage: "1Gi"
+          limits:
+            memory: "1Gi"
+            cpu: "500m"
+            ephemeral-storage: "1Gi"
