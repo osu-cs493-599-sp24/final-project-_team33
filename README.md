@@ -1,6 +1,9 @@
 # final-project-_team33
 
-Kubernetes Step
+
+#Deployment Step
+
+#Set up Kubernetes cluster Step
 1. Register a new account on GOOGLE Cloud Platform
 2. Create a new project
 3. Enable Kubernetes Engine API
@@ -13,8 +16,7 @@ Kubernetes Step
   - gcloud container clusters create [cluster-name] --machine-type=e2-micro --zone-us-west1-a --num-nodes=2
   - gcloud container clusters get-credentials [cluster-name] --zone us-west1-a // to get the credentials for the cluster
 
-
-Init Mongo Kubernetes
+##Set Up Mongo Kubernetes
 1. create secret file ./deployments/mongo/secret.yaml
   - encode value as base64 (echo -n 'xxxxxxxx' | base64)
   - kubectl apply -f ./deployments/mongo-secret.yaml
@@ -27,8 +29,18 @@ Init Mongo Kubernetes
   - kubectl get services // to check the service that we open port 27017
 4. testing connect to mongodb
   - kubectl get services // to get all service and port of all services
-  - kubectl port-forward service/mongodb-service 27017:27017 // [local:remote] to forward port
+  - kubectl port-forward service/mongodb-service 27017:27017 // [local:remote-service-port] to forward port
 
+##Set Up Redis  Kubernetes
+1. create deployment file ./deployments/redis/deployment.yaml
+  - kubectl apply -f ./deployments/redis/deployment.yaml
+  - kubectl get pods // to check the pod
+2. create service file ./deployments/redis/service.yml
+  - kubectl apply -f ./deployments/redis/service.yaml
+  - kubectl get services // to check the service that we open port 6379
+3. testing connect to redis
+  - kubectl get services // to get all service and port of all services
+  - kubectl port-forward service/redis-service 6379:6379 // [local:remote-service-port] to forward port
 
 
 connect to mongodb
