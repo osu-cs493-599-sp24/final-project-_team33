@@ -3,7 +3,6 @@ import { AssignmentRequestBody, IAssignment } from "../assignment.type"
 import { ISubmission, SubmissionRequestBody } from "../../submission/submission.type"
 
 import AssignmentModel from "./assignment.model"
-import Course from "../../course/model/course.model"
 import CourseModel from "../../course/model/course.model"
 import { assign } from "lodash"
 import mongoose from "mongoose"
@@ -63,12 +62,17 @@ class AssignmentHandler implements IAssignmentHandler {
     assignmentId: string,
     assignment: Partial<IAssignment>
   ): Promise<IAssignment | null> {
-
     // find the assignment by ID
     return AssignmentModel.findByIdAndUpdate(assignmentId, assignment, { new: true }).exec()
   }
 
   async deleteAssignmentById(assignmentId: string): Promise<void> {
+    const course = await this.getCourseByAssignmentId(assignmentId)
+    // remove assignment from course.assignments
+    await CourseModel.findByIdAndUpdate(course._id, {
+      $pull: { assignments: new ObjectId(assignmentId) },
+    }).exec()
+
     await AssignmentModel.findByIdAndDelete(assignmentId).exec()
   }
 
