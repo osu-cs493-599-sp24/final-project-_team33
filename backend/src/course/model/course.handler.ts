@@ -2,6 +2,7 @@ import { CourseRequestBody, ICourse } from "../course.type"
 import mongoose, { ObjectId } from "mongoose"
 
 import CourseModel from "./course.model"
+import User from "../../user/model/user.model"
 import { error } from "console"
 import { number } from "joi"
 import userModel from "../../user/model/user.model"
@@ -42,27 +43,29 @@ class CourseHandler implements ICourseHandler {
   }
 
   async getCourseById(courseId: number) {
-    return CourseModel.findOne({ number: `${courseId}` })
+    return CourseModel.findOne({ courseId })
   }
 
-  async updateCourseById(courseId: number, course: Partial<ICourse>): Promise<ICourse> {
-    return (await CourseModel.findOneAndUpdate({ courseId }, course, {
-      new: true,
-    }).exec()) as ICourse
+  async updateCourseById(courseId: number, course: Partial<ICourse>) {
+    return CourseModel.findOneAndUpdate(
+      { courseId },
+      { $set: { ...course } },
+      {
+        new: true,
+      }
+    )
   }
 
   async deleteCourseById(courseId: number): Promise<void> {
-    await CourseModel.findOneAndDelete({ courseId }).exec()
+    await CourseModel.findOneAndDelete({ courseId })
   }
 
   async getStudentsByCourseId(
     courseId: number
   ): Promise<{ name: string; email: string; role: string }[]> {
-    const course = await CourseModel.findOne({ courseId }).populate("students").exec()
-    if (!course) {
-      throw new Error("course not found")
-    }
-    return course.students.map((student: any) => ({
+    const studentIds: any = await CourseModel.findOne({ courseId }).lean()
+    const users = (await User.find({ _id: { $in: studentIds.students } }).lean()) || []
+    return users.map((student: any) => ({
       name: student.name,
       email: student.email,
       role: student.role,
