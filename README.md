@@ -53,4 +53,4 @@ gcloud artifacts repositories create team33-repo \
     --description="Docker repository"
   
 gcloud builds submit \
-  --tag us-west1-docker.pkg.dev/cs599-cloud/team33-repo/api .
+  --tag us-west1-docker.pkg.dev/cs599-cloud/team33-repo/api ./Dockerfile_gcloud
