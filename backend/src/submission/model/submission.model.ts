@@ -1,18 +1,20 @@
-// models/Submission.ts
-import mongoose from 'mongoose';
+import mongoose from "mongoose"
+import mongoose, { isValidObjectId } from "mongoose"
+import multer from "multer"
+import crypto from "crypto"
 
-const ObjectId = mongoose.Schema.Types.ObjectId;
+const ObjectId = mongoose.Schema.Types.ObjectId
 
 const SubmissionSchema = new mongoose.Schema(
   {
     assignmentId: {
       type: ObjectId,
-      ref: 'Assignment',
+      ref: "Assignment",
       required: true,
     },
     studentId: {
       type: ObjectId,
-      ref: 'User',
+      ref: "User",
       required: true,
     },
     timestamp: {
@@ -30,8 +32,8 @@ const SubmissionSchema = new mongoose.Schema(
   },
   {
     timestamps: true,
-    collection: 'submissions',
+    collection: "submission",
   }
-);
+)
 
-export default mongoose.models.Submission || mongoose.model('Submission', SubmissionSchema);
+export default mongoose.models.Submission || mongoose.model("submission", SubmissionSchema)

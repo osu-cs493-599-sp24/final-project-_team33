@@ -1,9 +1,10 @@
 import { ISubmission, SubmissionRequestBody } from "../submission.type"
+import mongoose, { isValidObjectId } from "mongoose"
 
 import { IError } from "../../main.type"
 import SubmissionModel from "./submission.model"
-import mongoose from 'mongoose';
 
+const ObjectId = mongoose.Schema.Types.ObjectId
 export interface ISubmissionHandler {
   addSubmission: (submission: SubmissionRequestBody) => Promise<ISubmission>;
   updateSubmission: (submissionId: string, submission: Partial<ISubmission>) => Promise<ISubmission | null>;
@@ -15,8 +16,8 @@ class SubmissionHandler implements ISubmissionHandler {
   async addSubmission(submission: SubmissionRequestBody): Promise<ISubmission> {
     const newSubmission = new SubmissionModel({
       ...submission,
-      assignmentId: new mongoose.Types.ObjectId(submission.assignmentId),
-      studentId: new mongoose.Types.ObjectId(submission.studentId),
+      // assignmentId: new mongoose.Types.ObjectId(submission.assignmentId),
+      // studentId: new mongoose.Types.ObjectId(submission.studentId),
     });
     await newSubmission.save();
     return newSubmission.toObject();
@@ -24,10 +25,10 @@ class SubmissionHandler implements ISubmissionHandler {
 
   async updateSubmission(submissionId: string, submission: Partial<ISubmission>): Promise<ISubmission | null> {
     if (submission.assignmentId) {
-      submission.assignmentId = new mongoose.Types.ObjectId(submission.assignmentId);
+      // submission.assignmentId = new mongoose.Types.ObjectId(submission.assignmentId);
     }
     if (submission.studentId) {
-      submission.studentId = new mongoose.Types.ObjectId(submission.studentId);
+      // submission.studentId = new mongoose.Types.ObjectId(submission.studentId);
     }
     const updatedSubmission = await SubmissionModel.findByIdAndUpdate(submissionId, submission, { new: true }).exec();
     return updatedSubmission ? updatedSubmission.toObject() : null;

@@ -1,28 +1,49 @@
-import { Request, Response } from 'express'
-import submissionHandler from './model/submission.handler'
-import { ISubmission, SubmissionRequestBody } from './submission.type'
+import { ISubmission, SubmissionRequestBody } from "./submission.type"
+import type { NextFunction, Request, Response } from "express"
+
+import { error } from "console"
+import submissionHandler from "./model/submission.handler"
 
 class SubmissionController {
-    async updateSubmission(req: Request<{ id: string }, {}, Partial<ISubmission>>, res: Response) {
-        try {
-            const submission = await submissionHandler.updateSubmission(req.params.id, req.body);
-            if (!submission) {
-                return res.status(404).json({ error: 'Submission not found' });
-            }
-            res.status(200).json(submission);
-        } catch (error) {
-            res.status(400).json({ error: 'Invalid submission data' });
-        }
-    }
+  async post(req: Request, res: Response, next: NextFunction) {
+    // console.log("====submission post=====")
+    // try {
+    //   //const body: SubmissionRequestBody = req.body
+    //   const body: any = req.body
+    //   console.log(body)
+    //   //console.log(req.file)
+    //   const SubInfo: any = await submissionHandler.addSubInfoById(body)
+    //   res.status(200).send({ id: SubInfo })
+    // } catch (error: any) {
+    //   next(error)
+    // }
+  }
 
-    async getSubmissionMedia(req: Request<{ id: string }>, res: Response) {
-        try {
-            const file = await submissionHandler.getSubmissionMedia(req.params.id);
-            res.status(200).json({ file });
-        } catch (error) {
-            res.status(404).json({ error: 'Submission not found' });
-        }
+  async update(req: Request, res: Response, next: NextFunction) {
+    try {
+      const submissionId = req.params.submissionId
+      const body: ISubmission = req.body
+      //   const submission = await submissionHandler.updateSubInfoById(submissionId, body)
+      const submission = {}
+      res.status(200).json(submission)
+    } catch (error) {
+      next(error)
     }
+  }
+
+  async getSubInfo(req: Request, res: Response, next: NextFunction) {
+    //     console.log("====getSubInfo post=====")
+    //     try {
+    //       const submission = await submissionHandler.getSubInfoById(req.body.assignmentId)
+    //       if (submission) {
+    //         submission.url = `/submission/upload/submission/${submission.filename}`
+    //         res.status(200).send(submission)
+    //       }
+    //     } catch (error) {
+    //       next(error)
+    //     }
+    //   }
+  }
 }
 
-export const submissionController = new SubmissionController();
+export const submissionController = new SubmissionController()
