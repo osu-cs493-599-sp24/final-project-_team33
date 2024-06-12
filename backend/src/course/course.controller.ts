@@ -157,7 +157,9 @@ class CourseController {
     try {
       const { courseId } = req.params
       const assignments: string[] = await courseHandler.getAssignmentsByCourseId(Number(courseId))
-      res.status(200).json({ message: "Assignments retrieved successfully.", data: assignments })
+      res
+        .status(200)
+        .json({ message: "Assignments retrieved successfully.", assignments: assignments })
     } catch (error: any) {
       next(error)
     }

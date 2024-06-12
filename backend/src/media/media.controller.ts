@@ -9,7 +9,6 @@ import { getFileById } from "../lib/upload"
 class MediaController {
   async getFile(req: Request, res: Response, next: NextFunction) {
     const fileName = req.params.fileName
-    console.log(fileName)
     const submission = await SubmissionModel.findOne({ "file.filename": fileName })
     if (!submission) {
       res.status(404).json({ message: "File not found" })

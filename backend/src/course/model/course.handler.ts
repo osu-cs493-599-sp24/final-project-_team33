@@ -1,11 +1,9 @@
 import { CourseRequestBody, ICourse } from "../course.type"
 import mongoose, { ObjectId } from "mongoose"
 
+import AssignmentModel from "../../assignment/model/assignment.model"
 import CourseModel from "./course.model"
 import User from "../../user/model/user.model"
-import { error } from "console"
-import { number } from "joi"
-import userModel from "../../user/model/user.model"
 
 export interface ICourseHandler {
   getCourses: (
@@ -112,8 +110,15 @@ class CourseHandler implements ICourseHandler {
   }
 
   async getAssignmentsByCourseId(courseId: number): Promise<string[]> {
-    const course = await CourseModel.findById(courseId).populate("assignments").exec()
-    return course.assignments.map((assignment: any) => assignment._id.toString())
+    const asm: any = await AssignmentModel.find({ courseId })
+    return asm.map((a: any) => {
+      return {
+        courseId: a.courseId,
+        title: a.title,
+        points: a.points,
+        due: a.due,
+      }
+    })
   }
 }
 
