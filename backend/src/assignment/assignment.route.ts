@@ -7,11 +7,23 @@ const router: Router = express.Router()
 
 router.post("/", authMiddleWare(["instructor", "admin"]), assignmentController.createAssignment)
 router.get("/:id", assignmentController.getAssignmentById)
-router.patch("/:id", assignmentController.updateAssignmentById)
-router.delete("/:id", assignmentController.deleteAssignmentById)
+router.patch(
+  "/:id",
+  authMiddleWare(["instructor", "admin"]),
+  assignmentController.updateAssignmentById
+)
+router.delete(
+  "/:id",
+  authMiddleWare(["instructor", "admin"]),
+  assignmentController.deleteAssignmentById
+)
 
 //Submission routes
 router.get("/:id/submissions", assignmentController.getSubmissionsByAssignmentId)
-router.post("/:id/submissions", assignmentController.createSubmission)
+router.post(
+  "/:id/submissions",
+  authMiddleWare(["student", "admin"]),
+  assignmentController.createSubmission
+)
 
 export default router

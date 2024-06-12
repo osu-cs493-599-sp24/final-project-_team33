@@ -33,11 +33,14 @@ class AssignmentController {
     }
   }
 
-  async updateAssignmentById(
-    req: Request<{ id: string }, {}, Partial<IAssignment>>,
-    res: Response
-  ) {
+  async updateAssignmentById(req: any, res: Response) {
     try {
+      const course = await assignmentHandler.getCourseByAssignmentId(req.params.id)
+      const instructorId: any = course.instructorId
+      const user = req.user
+      if (!instructorId.equals(user._id)) {
+        throw new Error("Unauthorized access")
+      }
       const assignment = await assignmentHandler.updateAssignmentById(req.params.id, req.body)
       if (!assignment) {
         return res.status(404).json({ error: "Assignment not found" })
