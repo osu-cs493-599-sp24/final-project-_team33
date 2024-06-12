@@ -5,7 +5,6 @@ import { ISubmission, SubmissionRequestBody } from "../../submission/submission.
 import AssignmentModel from "./assignment.model"
 import CourseModel from "../../course/model/course.model"
 import SubmissionModel from "../../submission/model/submission.model"
-import { assign } from "lodash"
 import mongoose from "mongoose"
 import submissionHandler from "../../submission/model/submission.handler"
 
@@ -28,6 +27,11 @@ export interface IAssignmentHandler {
 }
 
 class AssignmentHandler implements IAssignmentHandler {
+  async addSubmission(body: any): any {
+    const submission = new SubmissionModel(body)
+    await submission.save()
+    return submission.toObject()
+  }
   async addAssignment(assignment: AssignmentRequestBody): Promise<IAssignment> {
     const newAssignment = new AssignmentModel(assignment)
     await newAssignment.save()
@@ -73,16 +77,10 @@ class AssignmentHandler implements IAssignmentHandler {
     await AssignmentModel.findByIdAndDelete(assignmentId).exec()
   }
 
-  async addSubmission(body: any) {
-    const newSubmission = new SubmissionModel(body)
-    await newSubmission.save()
-    return newSubmission.toObject()
-  }
-
   async getSubmissionsByAssignmentId(
     assignmentId: string,
     page: number,
-    studentId: string,
+    studentId?: string
   ): Promise<ISubmission[]> {
     return submissionHandler.getSubmissionsByAssignmentId(assignmentId, page, studentId)
   }

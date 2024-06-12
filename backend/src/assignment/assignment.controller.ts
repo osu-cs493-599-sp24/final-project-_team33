@@ -89,7 +89,6 @@ class AssignmentController {
       const user = req.user
       const studentId = user._id
 
-      console.log("req.file", req.file)
       const file = req.file
       const { path, filename } = file
       const fileId = await uploadFile({
