@@ -12,7 +12,6 @@ export const authMiddleWare = (roles: string[]) => {
 
     const token = headers["authorization"].split(" ")[1]
     const decoded: any = verifyToken(token)
-    console.log(decoded)
     if (!decoded) {
       return res.status(401).send({
         error: "Unauthorized",
@@ -36,7 +35,7 @@ export const getExactRole = (req: any, res: any, next: any) => {
   if (user.role === "admin") {
     return next()
   }
-  if (userId !== req.user.id) {
+  if (userId !== req.user._id) {
     return res.status(403).send({
       error: "Forbidden",
     })
