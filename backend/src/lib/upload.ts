@@ -1,4 +1,5 @@
 import { Buffer } from "node:buffer"
+import { ObjectId } from "mongodb"
 import { Readable } from "node:stream"
 import crypto from "crypto"
 import fs from "fs"
@@ -48,4 +49,19 @@ export const uploadFile = ({ filePath, fileName, bucketName }: any) => {
         })
       })
   })
+}
+
+export const getFileById = async (id: string, bucketName = "submissionFile") => {
+  const db = mongoose.connections[0].db
+  const bucket = new mongoose.mongo.GridFSBucket(db, {
+    bucketName: bucketName,
+  })
+  const downloadStream = bucket.openDownloadStream(new ObjectId(id))
+
+  const chunks = []
+  for await (const chunk of downloadStream) {
+    chunks.push(chunk)
+  }
+  const buffer = Buffer.concat(chunks)
+  return buffer
 }
