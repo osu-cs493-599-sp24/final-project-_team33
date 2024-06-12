@@ -44,6 +44,8 @@
 
 
 ## Set up artifact for docker image registry at google cloud
+gcloud config get-value project // to get the project id
+
 gcloud artifacts repositories create team33-repo \
     --project=cs599-cloud \
     --repository-format=docker \
