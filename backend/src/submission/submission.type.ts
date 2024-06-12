@@ -1,12 +1,13 @@
+// types/submission.type.ts
+import { ObjectId } from 'mongoose';
+
 export interface ISubmission {
-  _id?: string
-  description: string
-  assignmentId: string
-  studentId: string
-  score: number
-  fileIds: string[]
-  createdAt: Date
-  updatedAt: Date
+  _id?: any;
+  assignmentId: string | ObjectId;
+  studentId: string | ObjectId;
+  timestamp?: Date;
+  file: string;
+  grade?: number;
 }
 
-export type SubmissionRequestBody = {}
+export type SubmissionRequestBody = Omit<ISubmission, "_id" | "timestamp">;

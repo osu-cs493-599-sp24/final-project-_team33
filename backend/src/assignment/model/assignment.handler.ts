@@ -3,6 +3,7 @@ import { AssignmentRequestBody, IAssignment } from "../assignment.type"
 import { SubmissionRequestBody, ISubmission } from "../../submission/submission.type"
 import AssignmentModel from "./assignment.model"
 import submissionHandler from '../../submission/model/submission.handler'
+import mongoose from 'mongoose'
 
 export interface IAssignmentHandler {
   addAssignment: (assignment: AssignmentRequestBody) => Promise<IAssignment>
@@ -37,7 +38,7 @@ class AssignmentHandler implements IAssignmentHandler {
   }
 
   async addSubmissionByAssignmentId(assignmentId: string, submission: SubmissionRequestBody): Promise<ISubmission> {
-    submission.assignmentId = assignmentId;
+    submission.assignmentId = new mongoose.Types.ObjectId(assignmentId);
     return submissionHandler.addSubmission(submission);
   }
 }

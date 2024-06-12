@@ -4,14 +4,14 @@ import { assignmentController } from './assignment.controller'
 
 const router: Router = express.Router()
 
-router.post('/assignments', assignmentController.createAssignment);
-router.get('/assignments/:id', assignmentController.getAssignmentById);
-router.patch('/assignments/:id', assignmentController.updateAssignmentById);
-router.delete('/assignments/:id', assignmentController.deleteAssignmentById);
+router.post('/', assignmentController.createAssignment);
+router.get('/:id', assignmentController.getAssignmentById);
+router.patch('/:id', assignmentController.updateAssignmentById);
+router.delete('/:id', assignmentController.deleteAssignmentById);
 
-// Submission routes
-router.get('/assignments/:id/submissions', assignmentController.getSubmissionsByAssignmentId);
-router.post('/assignments/:id/submissions', assignmentController.createSubmission);
+//Submission routes
+router.get('/:id/submissions', assignmentController.getSubmissionsByAssignmentId);
+router.post('/:id/submissions', assignmentController.createSubmission);
 
 export default router
 
