@@ -1,3 +1,5 @@
+import { rateLimitAuth, rateLimitUnAuth } from "../middleware/ratelimiter"
+
 import type { Router } from "express"
 import { authMiddleWare } from "../middleware/auth"
 import { courseController } from "./course.controller"
@@ -5,11 +7,21 @@ import express from "express"
 
 const router: Router = express.Router()
 
-router.get("/", courseController.getCourses)
-router.post("/", authMiddleWare(["instructor", "admin"]), courseController.createCourse)
-router.get("/:courseId", courseController.getSpecificCourse)
-router.patch("/:courseId", authMiddleWare(["instructor", "admin"]), courseController.updateCourse)
-router.delete("/:courseId", authMiddleWare(["admin"]), courseController.deleteCourse)
+router.get("/", rateLimitUnAuth, courseController.getCourses)
+router.post(
+  "/",
+  authMiddleWare(["instructor", "admin"]),
+  rateLimitAuth,
+  courseController.createCourse
+)
+router.get("/:courseId", rateLimitUnAuth, courseController.getSpecificCourse)
+router.patch(
+  "/:courseId",
+  authMiddleWare(["instructor", "admin"]),
+  rateLimitAuth,
+  courseController.updateCourse
+)
+router.delete("/:courseId", authMiddleWare(["admin"]), rateLimitAuth, courseController.deleteCourse)
 router.get(
   "/:courseId/students",
   authMiddleWare(["instructor", "admin"]),
